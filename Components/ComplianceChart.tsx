@@ -1,27 +1,22 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 const data = [
-  { time: "00:00", compliance: 98, violations: 2 },
-  { time: "02:00", compliance: 99, violations: 1 },
-  { time: "04:00", compliance: 99, violations: 1 },
-  { time: "06:00", compliance: 96, violations: 4 },
-  { time: "08:00", compliance: 94, violations: 6 },
-  { time: "10:00", compliance: 92, violations: 8 },
-  { time: "12:00", compliance: 96, violations: 4 },
-  { time: "14:00", compliance: 95, violations: 5 },
-  { time: "16:00", compliance: 93, violations: 7 },
-  { time: "18:00", compliance: 94, violations: 6 },
-  { time: "20:00", compliance: 95, violations: 5 },
-  { time: "22:00", compliance: 97, violations: 3 },
-  { time: "23:59", compliance: 97, violations: 3 },
-].map(item => ({
-  ...item,
-  violations: 100 - item.compliance
-}));
+  { time: "00:00", compliance: 50, reminders: 30, violations: 20 },
+  { time: "02:00", compliance: 55, reminders: 25, violations: 20 },
+  { time: "04:00", compliance: 60, reminders: 20, violations: 20 },
+  { time: "06:00", compliance: 45, reminders: 35, violations: 20 },
+  { time: "08:00", compliance: 40, reminders: 40, violations: 20 },
+  { time: "10:00", compliance: 35, reminders: 45, violations: 20 },
+  { time: "12:00", compliance: 50, reminders: 30, violations: 20 },
+  { time: "14:00", compliance: 45, reminders: 35, violations: 20 },
+  { time: "16:00", compliance: 40, reminders: 40, violations: 20 },
+  { time: "18:00", compliance: 45, reminders: 35, violations: 20 },
+  { time: "20:00", compliance: 50, reminders: 30, violations: 20 },
+  { time: "22:00", compliance: 55, reminders: 25, violations: 20 },
+  { time: "23:59", compliance: 60, reminders: 20, violations: 20 },
+];
 
 export function ComplianceChart() {
-  const maxViolations = Math.max(...data.map(d => d.violations));
-  const maxCompliance = 100;
 
   return (
     <Card className="bg-slate-900 border-slate-800">
@@ -35,6 +30,10 @@ export function ComplianceChart() {
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500" />
               <span className="text-slate-300">Compliance Rate %</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-yellow-500" />
+              <span className="text-slate-300">Reminders %</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500" />
@@ -63,22 +62,32 @@ export function ComplianceChart() {
             {/* Bars */}
             {data.map((item, index) => (
               <div key={index} className="flex-1 flex flex-col items-center relative z-10 h-full">
-                <div className="relative w-full h-full flex items-end justify-center">
-                  {/* Compliance bar (green) - grows from bottom */}
+                <div className="relative w-full h-full flex items-end justify-center gap-1">
+                  {/* Three separate vertical bars side by side */}
+                  {/* Compliance bar (green) */}
                   <div
-                    className="w-1/3 bg-green-700 rounded-t transition-all duration-300 hover:opacity-80 hover:scale-105 shadow-md"
+                    className="w-1/4 bg-green-600 rounded-t transition-all duration-300 hover:opacity-80 hover:scale-105 shadow-md"
                     style={{
                       height: `${item.compliance}%`,
-                      minHeight: '2px'
+                      minHeight: '4px'
                     }}
                     title={`Compliance: ${item.compliance}%`}
                   />
-                  {/* Violations bar (red) - grows from bottom */}
+                  {/* Reminders bar (yellow) */}
                   <div
-                    className="w-1/3 bg-red-700 rounded-t transition-all duration-300 hover:opacity-80 hover:scale-105 shadow-md"
+                    className="w-1/4 bg-yellow-500 rounded-t transition-all duration-300 hover:opacity-80 hover:scale-105 shadow-md"
+                    style={{
+                      height: `${item.reminders}%`,
+                      minHeight: '4px'
+                    }}
+                    title={`Reminders: ${item.reminders}%`}
+                  />
+                  {/* Violations bar (red) */}
+                  <div
+                    className="w-1/4 bg-red-600 rounded-t transition-all duration-300 hover:opacity-80 hover:scale-105 shadow-md"
                     style={{
                       height: `${item.violations}%`,
-                      minHeight: '2px'
+                      minHeight: '4px'
                     }}
                     title={`Violations: ${item.violations}%`}
                   />
@@ -97,14 +106,18 @@ export function ComplianceChart() {
           </div>
 
           {/* Data summary */}
-          <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800">
+          <div className="grid grid-cols-4 gap-4 pt-4 border-t border-slate-800">
             <div className="text-center">
-              <div className="text-2xl text-green-400">96.4%</div>
+              <div className="text-2xl text-green-400">48.5%</div>
               <div className="text-xs text-slate-500">Avg Compliance</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl text-red-400">28</div>
-              <div className="text-xs text-slate-500">Total Violations</div>
+              <div className="text-2xl text-yellow-400">31.2%</div>
+              <div className="text-xs text-slate-500">Avg Reminders</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl text-red-400">20.3%</div>
+              <div className="text-xs text-slate-500">Avg Violations</div>
             </div>
             <div className="text-center">
               <div className="text-2xl text-blue-400">2,426</div>
